@@ -40,4 +40,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function timeline()
+    {
+        return $this->hasOne(Timeline::class);
+    }
+
+    public function follower()
+    {
+        return $this->hasMany(Follow::class, 'id', 'following_to');
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'id', 'followed_by');
+    }
 }
