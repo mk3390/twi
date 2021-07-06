@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,17 +13,23 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id=0)
     {
         try {
-            $post = auth()->user()->timeline->getAllPost();
+            if($id>0){
+                $user = User::find($id);
+            }else{
+                  $user = auth()->user();
+            }
+          
+            $post = $user->timeline->getAllPost();
             $success['data'] = $post;
             $success['success'] = true;
             $success['message'] = "Successfully logged out.";
             return $this->sendResponse($success);
         } catch (\Exception $e) {
             $success['success'] = false;
-            $success['error'] = "Successfully logged out.";
+            $success['error'] = $e->getMessage();
             return $this->sendResponse($success, 401);
         }
     }
@@ -47,15 +54,15 @@ class PostController extends Controller
     {
         try {
             $post = New Post();
-            $post->validate($request);
-            $post->store();
-            $success['data'] = $post;
+            $post->validate($request->all());
+            $data =$post->store();
+            $success['data'] = $data->load('user');
             $success['success'] = true;
             $success['message'] = "Post Created";
             return $this->sendResponse($success);
         } catch (\Exception $e) {
             $success['success'] = false;
-            $success['error'] = "Error to create post";
+            $success['error'] = $e->getMessage();
             return $this->sendResponse($success, 401);
         }
     }

@@ -26,7 +26,7 @@ Route::group([ 'prefix' => 'auth'], function (){
 
 Route::post('upload', 'PostConroller@uploadImages');
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('list', 'PostController@index');
+    Route::get('list/{id?}', 'PostController@index');
     Route::get('search/{keyword}', 'AuthController@search');
     Route::post('post', 'PostController@store');
     Route::post('comment', 'CommentController@store');

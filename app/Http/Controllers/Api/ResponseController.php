@@ -10,11 +10,7 @@ use App\User;
 
 class ResponseController extends Controller
 {
-    public function sendResponse($response)
-    {
-        return response()->json($response, 200);
-    }
-
+  
 
     public function sendError($error, $code = 404)
     {

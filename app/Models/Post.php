@@ -40,6 +40,6 @@ class Post extends Model
 
     public function store()
     {
-        $this->create($this->data);
+       return $this->create($this->data);
     }
 }

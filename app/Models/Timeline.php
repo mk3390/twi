@@ -28,6 +28,6 @@ class Timeline extends Model
 
     public function getAllPost()
     {
-        return $this->posts->with('comment')
+        return $this->posts()->with('user')->get();
     }
 }
