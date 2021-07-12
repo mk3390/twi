@@ -35,6 +35,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('approve', 'FollowingController@approve');
     Route::post('reject', 'FollowingController@reject');
     Route::post('block', 'BlockController@store');
+    Route::post('message', 'MessageController@store');
+    Route::get('message/{id}', 'MessageController@index');
+    Route::get('message/list', 'MessageController@index');
+    Route::post('message/group', 'MessageGroupController@store');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -29,6 +29,7 @@ class AuthController extends ResponseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->timeline()->save();
         if($user){
             $success['user'] =  $user;
             $success['token'] =  $user->createToken('token')->accessToken;
@@ -101,5 +102,22 @@ class AuthController extends ResponseController
             $error = "user not found";
             return $this->sendResponse($error);
         }
+    }
+
+    public function  search(Request $request,$keyword)
+    {
+        try{
+            $user=User::where('email','like','%'.$keyword.'%')->where('name','like','%'.$keyword.'%')->get();
+            $success['data'] = $user;
+            $success['success'] = true;
+            $success['message'] = "Post Created";
+            return $this->sendResponse($success);
+        }catch(\Exception $e)
+        {
+            $success['success'] = false;
+            $success['error'] = $e->getMessage();
+            return $this->sendResponse($success, 401);
+        }
+
     }
 }

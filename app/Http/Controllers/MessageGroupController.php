@@ -35,7 +35,20 @@ class MessageGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $message = New MessageGroup();
+            $message->name = $request->name;
+            $message->save();
+            $message->members()->sync($request->user);
+            $success['data'] = $message;
+            $success['success'] = true;
+            $success['message'] = "Post Created";
+            return $this->sendResponse($success);
+        } catch (\Exception $e) {
+            $success['success'] = false;
+            $success['error'] = $e->getMessage();
+            return $this->sendResponse($success, 401);
+        }
     }
 
     /**

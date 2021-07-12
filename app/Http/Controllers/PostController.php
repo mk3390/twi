@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PostController extends Controller
 {
@@ -13,17 +15,24 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id=0)
+    public function index(Request $request,$id=0)
     {
         try {
-            if($id>0){
-                $user = User::find($id);
-            }else{
-                  $user = auth()->user();
+            $limit = 50;
+            $offset = 0;
+            if($request->page>0)
+            {
+                $offset = ($request->page - 1) *$limit;
             }
-          
-            $post = $user->timeline->getAllPost();
-            $success['data'] = $post;
+            if($id>0){
+                $user = $id;
+                 $data = DB::select(DB::raw("CALL `getPost`($user, $limit, $offset)"));
+            }else{
+                  $user = auth()->user()->id;
+                   $data = DB::select(DB::raw("CALL `getTimelinepost`($user, $limit, $offset)"));
+            }
+           // $post = $user->timeline->getAllPost();
+            $success['data'] = $data;
             $success['success'] = true;
             $success['message'] = "Successfully logged out.";
             return $this->sendResponse($success);

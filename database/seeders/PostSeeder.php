@@ -17,7 +17,7 @@ class PostSeeder extends Seeder
     public function run()
     {
         User::factory()->count(10)->create()->each(function ($user) {
-            $user->timeline()->save(Timeline::factory()->hasPosts(500,['user_id'=>$user->id])->create());
+            $user->timeline()->save(Timeline::factory()->hasPosts(50,['user_id'=>$user->id])->create());
         });
     }
 }

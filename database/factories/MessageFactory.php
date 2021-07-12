@@ -22,7 +22,9 @@ class MessageFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'content' =>  $this->faker->text(rand(5,500)),
+            'from_id' => rand(1,2),
+            'to_id' => rand(1,2)
         ];
     }
 }
