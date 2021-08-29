@@ -27,7 +27,7 @@ Route::group([ 'prefix' => 'auth'], function (){
 Route::post('upload', 'PostConroller@uploadImages');
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('list/{id?}', 'PostController@index');
-    Route::get('search/{keyword}', 'AuthController@search');
+    Route::get('search/{keyword}', 'Api\AuthController@search');
     Route::post('post', 'PostController@store');
     Route::post('comment', 'CommentController@store');
     Route::post('reaction', 'ReactionController@store');
@@ -36,8 +36,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('reject', 'FollowingController@reject');
     Route::post('block', 'BlockController@store');
     Route::post('message', 'MessageController@store');
-    Route::get('message/{id}', 'MessageController@index');
-    Route::get('message/list', 'MessageController@index');
+    Route::get('message/{id}', 'MessageController@show');
+    Route::get('messages/list', 'MessageController@index');
     Route::post('message/group', 'MessageGroupController@store');
     Route::post('profile', 'UserController@update');
 });
