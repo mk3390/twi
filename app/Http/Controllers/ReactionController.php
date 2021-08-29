@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reaction;
+use App\Models\React;
 use Illuminate\Http\Request;
 
 class ReactionController extends Controller
@@ -36,7 +36,7 @@ class ReactionController extends Controller
     public function store(Request $request)
     {
         try {
-            $reaction = New Reaction();
+            $reaction = New React();
             $reaction->validate($request);
             $reaction->store();
             $success['data'] = $reaction;

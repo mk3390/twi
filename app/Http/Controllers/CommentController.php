@@ -36,8 +36,10 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         try {
+            $data = $request->all();
+            $data['user_id'] = (auth()->user())?auth()->user()->id:0;
             $comment = New Comment();
-            $comment->validate($request);
+            $comment->validate($data);
             $comment->store();
             $success['data'] = $comment;
             $success['success'] = true;

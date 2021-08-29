@@ -15,4 +15,16 @@ class React extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'post_id', 'type'];
+   
+    protected $data = [];
+    
+    public function validate($request)
+    {
+        $this->data = $request;
+    }
+
+    public function store()
+    {
+       return $this->create($this->data);
+    }
 }
