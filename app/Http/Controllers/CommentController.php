@@ -40,8 +40,8 @@ class CommentController extends Controller
             $data['user_id'] = (auth()->user())?auth()->user()->id:0;
             $comment = New Comment();
             $comment->validate($data);
-            $comment->store();
-            $success['data'] = $comment;
+            $newcomment = $comment->store();
+            $success['data'] =  $newcomment;
             $success['success'] = true;
             $success['message'] = "Comment Created";
             return $this->sendResponse($success);

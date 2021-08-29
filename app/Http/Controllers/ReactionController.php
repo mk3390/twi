@@ -37,9 +37,11 @@ class ReactionController extends Controller
     {
         try {
             $reaction = New React();
-            $reaction->validate($request);
-            $reaction->store();
-            $success['data'] = $reaction;
+            $data = $request->all();
+            $data['user_id'] = (auth()->user())?auth()->user()->id:0;
+            $reaction->validate($data);
+            $store = $reaction->store();
+            $success['data'] = $store;
             $success['success'] = true;
             $success['message'] = "Reaction Created";
             return $this->sendResponse($success);
