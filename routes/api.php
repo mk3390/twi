@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('message/{id}', 'MessageController@index');
     Route::get('message/list', 'MessageController@index');
     Route::post('message/group', 'MessageGroupController@store');
+    Route::post('profile', 'UserController@update');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
