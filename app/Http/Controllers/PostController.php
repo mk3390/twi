@@ -87,7 +87,7 @@ class PostController extends Controller
         try {
             $user = (auth()->user())?auth()->user()->id:0;
             $data = DB::select(DB::raw("CALL `getSinglePost`($id, $user)"));
-            $success['data'] = $post;
+            $success['data'] = $data;
             $success['success'] = true;
             $success['message'] = "Successfully logged out.";
             return $this->sendResponse($success);
