@@ -85,7 +85,8 @@ class PostController extends Controller
     public function show(Request $request,$id)
     {
         try {
-            $post = Post::with('user')->where('id',$id)->first();
+            $user = (auth()->user())?auth()->user()->id:0;
+            $data = DB::select(DB::raw("CALL `getSinglePost`($id, $user)"));
             $success['data'] = $post;
             $success['success'] = true;
             $success['message'] = "Successfully logged out.";
