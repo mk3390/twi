@@ -43,6 +43,23 @@ class PostController extends Controller
         }
     }
 
+    public function comments(Request $request,$id=0)
+    {
+        try {
+            $posts = $request->post;
+            $limit=5;
+            $data = DB::select(DB::raw("CALL `getCommentByPost`($posts, $limit)"));
+            // $post = $user->timeline->getAllPost();
+            $success['data'] = $data;
+            $success['success'] = true;
+            $success['message'] = "Successfully logged out.";
+            return $this->sendResponse($success);
+        } catch (\Exception $e) {
+            $success['success'] = false;
+            $success['error'] = $e->getMessage();
+            return $this->sendResponse($success, 401);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
