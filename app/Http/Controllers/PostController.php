@@ -82,9 +82,19 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Request $request,$id)
     {
-        //
+        try {
+            $post = Post::with('user')->where('id',$id)->first();
+            $success['data'] = $post;
+            $success['success'] = true;
+            $success['message'] = "Successfully logged out.";
+            return $this->sendResponse($success);
+        } catch (\Exception $e) {
+            $success['success'] = false;
+            $success['error'] = $e->getMessage();
+            return $this->sendResponse($success, 401);
+        }
     }
 
     /**
